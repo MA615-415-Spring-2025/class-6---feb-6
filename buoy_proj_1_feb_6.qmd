@@ -1,0 +1,55 @@
+---
+title: "buoys"
+author: "MA-615-415"
+format: html
+editor: visual
+---
+
+## The Buoys project
+
+In the last class we looked at the [National Data Buoy Center](https://www.ndbc.noaa.gov/) and downloaded 1984 data from [Station 44013](https://www.ndbc.noaa.gov/station_page.php?station=44013).
+
+Today we want to visualize this data and add more data from other years.
+
+We will do this project slowly, step-by-step as we learn the essentials of the [Tidyverse](https://www.google.com/search?q=cran+r+tidyverse&rlz=1C1GCEU_enUS1148US1148&oq=cran+r+tidyverse&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRiPAtIBCDY1NDdqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8) [[See also the Tidyverse website:](https://www.tidyverse.org/)] and Exploratory Data Analysis [see <a href="https://cran.r-project.org/doc/contrib/de_Jonge+van_der_Loo-Introduction_to_data_cleaning_with_R.pdf">
+Introduction to data cleaning with R</a>].
+
+## Data
+
+In the last class, we downloaded data from the year 1984
+
+```{r}
+#| label: read station 44013 year 1984 
+
+file_root <- "https://www.ndbc.noaa.gov/view_text_file.php?filename=44013h"
+tail <- ".txt.gz&dir=data/historical/stdmet/"
+    
+path <- paste0(file_root,"1984",tail)
+
+buoy <- read.table(path, fill = TRUE, header = TRUE, sep = "")
+
+
+head(buoy)
+
+# Let'slook at airtemp for 1984
+
+nat <- which(is.na(buoy$ATMP))
+
+nat <- length(nat)
+
+
+```
+
+Is there any NA data in the Air Temperture readings? 
+`r as.logical(nat)`
+
+```{r}
+#| label: save data
+
+airtemp <- buoy$ATMP
+
+saveRDS(airtemp , file = "airtemp.rdata")
+
+```
+
+
